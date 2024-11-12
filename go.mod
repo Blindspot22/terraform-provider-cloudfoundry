@@ -26,7 +26,7 @@ require (
 	github.com/elazarl/goproxy/ext v0.0.0-20190711103511-473e67f1d7d2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/gorilla/websocket v1.4.1 // indirect
-	github.com/hashicorp/go-getter v1.7.3
+	github.com/hashicorp/go-getter v1.7.5
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hashicorp/go-uuid v1.0.3
 	github.com/hashicorp/hcl v1.0.0
@@ -42,7 +42,10 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 )
 
-require github.com/hashicorp/terraform-plugin-log v0.9.0
+require (
+	github.com/google/uuid v1.3.1
+	github.com/hashicorp/terraform-plugin-log v0.9.0
+)
 
 require (
 	code.cloudfoundry.org/gofileutils v0.0.0-20170111115228-4d0c80011a0f // indirect
@@ -92,11 +95,11 @@ require (
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/whilp/git-urls v0.0.0-20160530060445-31bac0d230fa // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
-	golang.org/x/crypto v0.17.0 // indirect
+	golang.org/x/crypto v0.21.0 // indirect
 	golang.org/x/mod v0.14.0 // indirect
-	golang.org/x/net v0.18.0 // indirect
-	golang.org/x/sys v0.15.0 // indirect
-	golang.org/x/term v0.15.0 // indirect
+	golang.org/x/net v0.23.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
+	golang.org/x/term v0.18.0 // indirect
 	golang.org/x/tools v0.13.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231002182017-d307bd883b97 // indirect
