@@ -8,6 +8,7 @@ import (
 	"code.cloudfoundry.org/cli/api/cloudcontroller/ccv3/constant"
 	"code.cloudfoundry.org/cli/resources"
 	"code.cloudfoundry.org/cli/types"
+	goClient "github.com/cloudfoundry/go-cfclient/v3/client"
 	"github.com/terraform-providers/terraform-provider-cloudfoundry/cloudfoundry/common"
 	"github.com/terraform-providers/terraform-provider-cloudfoundry/cloudfoundry/managers/noaa"
 )
@@ -15,12 +16,14 @@ import (
 type RunBinder struct {
 	client     *ccv3.Client
 	noaaClient *noaa.NOAAClient
+	clientGo   *goClient.Client
 }
 
-func NewRunBinder(client *ccv3.Client, noaaClient *noaa.NOAAClient) *RunBinder {
+func NewRunBinder(client *ccv3.Client, clientGo *goClient.Client, noaaClient *noaa.NOAAClient) *RunBinder {
 	return &RunBinder{
 		client:     client,
 		noaaClient: noaaClient,
+		clientGo:   clientGo,
 	}
 }
 
@@ -325,9 +328,17 @@ func (r RunBinder) Start(appDeploy AppDeploy) (resources.Application, resources.
 	// Package not staged
 	if len(droplets) == 0 {
 		// Stage the package
-		build, _, err := r.client.CreateBuild(resources.Build{
-			PackageGUID: packageGUID,
-		})
+		buildCreateOptions := goResource.NewBuildCreate(packageGUID)
+
+		if appDeploy.Process.DiskInMB.IsSet {
+			buildCreateOptions.StagingDiskInMB = int(appDeploy.Process.DiskInMB.Value)
+		}
+		if appDeploy.Process.MemoryInMB.IsSet {
+			buildCreateOptions.StagingMemoryInMB = int(appDeploy.Process.MemoryInMB.Value)
+		}
+
+		build, err := r.clientGo.Builds.Create(context.Background(), buildCreateOptions)
+
 		if err != nil {
 			return resources.Application{}, resources.Process{}, err
 		}
